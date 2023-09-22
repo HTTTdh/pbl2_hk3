@@ -7,35 +7,42 @@ class node {
     public:
     ThiSinh data;
     node* next;
-
-    node(ThiSinh sv)
+    node();
+    node(ThiSinh ts)
     {
-        data = sv;
+        data = ts;
         next = NULL;
     }
 };
 
-class linklist {
+class LinkedList{
     private:
-    node *head;
-    public:
-    linklist()
-    {
+    node* head;
+public:
+    LinkedList() {
         head = NULL;
     }
-    void insert(ThiSinh sv)
-    {
-        node* p =new node(sv);
-        if (head==NULL) head = p;
-        else
-        {
-            node *temp= head;
-            while (temp->next !=NULL) 
-            {
-                temp= temp->next;
+
+    void insert(ThiSinh sv) {
+        node* newNode = new node(sv);
+        if (head == NULL) {
+            head = newNode;
+        }
+        else {
+            node* temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
             }
-            temp->next = p;
+            temp->next = newNode;
         }
     }
+
     
+    void display() {
+        node* temp = head;
+        while (temp != NULL) {
+            temp->data.display();
+            temp = temp->next;
+        }
+    }
 };
