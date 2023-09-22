@@ -5,17 +5,30 @@
 
 using namespace std;
 
+struct Date {
+    int day,month,year;
+};
+
 class Person {
-    protected:
+    private:
+    string cccd;
     string name;
+    Date date;
     string  address;
+    int gt;
     public:
     Person();
-    Person(string name,string address) ;
+    Person(string cccd, string name, Date date, string address, int gt) ;
+    void setcccd(string cccd);
+    string getcccd();
     void setname(string name);
-    string getname();   
+    string getname();
+    void setdate(Date date);
+    Date getdate();
     void setaddress(string address);
     string getaddress();
-   void input();
+    void setgt(int gt);
+    int getgt();
+    void nhapthongtin();
 };
 #endif
