@@ -78,6 +78,10 @@ string Person::getaddress()
     return address;
 }
 
+void Person::setgt(int gt)
+{
+    this->gt = gt;
+}
 int Person::getgt()
 {
     return gt;
@@ -120,6 +124,12 @@ class ThiSinh : public Person {
     void display();
 };
 
+ThiSinh::ThiSinh() : Person() {
+    to = 0;
+    sbd = "";
+    li = 0;
+    ho = 0;
+}
 ThiSinh::ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, double to, double li, double ho) : Person(cccd, name, date, address, gt)
 {
     this->sbd = sbd;
