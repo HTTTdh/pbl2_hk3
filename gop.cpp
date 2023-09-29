@@ -133,13 +133,13 @@ void Person::nhapthongtin()
     cout << "nhap gioi tinh (0: Nam, 1: Nu): ";
     cin >> gt;
 }
-
 class ThiSinh : public Person
 {
 private:
     double to;
     string sbd;
     double li, ho;
+
 public:
     ThiSinh();
     ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, double to, double li, double ho);
@@ -154,6 +154,7 @@ public:
     void input();
     void nhapsbd();
     void display();
+    void docfile(ifstream &);
 };
 
 ThiSinh::ThiSinh() : Person()
@@ -213,6 +214,9 @@ double ThiSinh::gethoa()
 
 void ThiSinh::input()
 {
+    for (int i = 0; i < 50; i++)
+        cout << "-";
+    cout << endl;
     nhapthongtin();
     fflush(stdin);
     cout << "nhap so bao danh: ";
@@ -223,10 +227,27 @@ void ThiSinh::input()
     cin >> li;
     cout << "nhap diem hoa: ";
     cin >> ho;
+    for (int i = 0; i < 50; i++)
+        cout << "-";
+    cout << endl;
 }
 
 void ThiSinh::display()
 {
+    cout << "+";
+        for (int i = 0; i < 153; i++)
+            cout << "-";
+        cout << "+" << endl;
+        cout << "|" << setw(15) << "Tên" << setw(20) << "|";
+        cout << setw(10) << "CCCD" << setw(10) << "|";
+        cout << setw(5) << "GT" << setw(3) << "|";
+        cout << setw(15) << "Ngày Sinh" << setw(5) << "|";
+        cout << setw(17) << "Địa Chỉ" << setw(8) << "|";
+        cout << setw(8) << "SBD" << setw(8) << "|";
+        cout << setw(8) << "Toán" << setw(3) << "|";
+        cout << setw(6) << "Lý" << setw(3) << "|";
+        cout << setw(7) << "Hóa" << setw(3) << "|";
+        cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
     cout << "|";
     for (int i = 0; i < 153; i++)
         cout << "-";
@@ -241,8 +262,16 @@ void ThiSinh::display()
     cout << setw(5) << getli() << setw(3) << "|";
     cout << setw(6) << gethoa() << setw(3) << "|";
     cout << setw(5) << to + li + ho << setw(5) << "|" << endl;
+     cout << "|";
+        for (int i = 0; i < 153; i++)
+            cout << "-";
+        cout << "|" << endl;
 }
 
+void ThiSinh::docfile(ifstream &ifs)
+{
+    // getline(ifs, getname(), ',' );
+}
 class node
 {
 public:
@@ -316,29 +345,11 @@ public:
     void xuat()
     {
         node *temp = head;
-        cout << "+";
-        for (int i = 0; i < 153; i++)
-            cout << "-";
-        cout << "+" << endl;
-        cout << "|" << setw(15) << "Tên" << setw(20) << "|";
-        cout << setw(10) << "CCCD" << setw(10) << "|";
-        cout << setw(5) << "GT" << setw(3) << "|";
-        cout << setw(15) << "Ngày Sinh" << setw(5) << "|";
-        cout << setw(17) << "Địa Chỉ" << setw(8) << "|";
-        cout << setw(8) << "SBD" << setw(8) << "|";
-        cout << setw(8) << "Toán" << setw(3) << "|";
-        cout << setw(6) << "Lý" << setw(3) << "|";
-        cout << setw(7) << "Hóa" << setw(3) << "|";
-        cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
         while (temp != NULL)
         {
             temp->data.display();
             temp = temp->next;
         }
-        cout << "|";
-        for (int i = 0; i < 153; i++)
-            cout << "-";
-        cout << "|" << endl;
     }
     bool testempty()
     {
@@ -513,19 +524,33 @@ void editinfor(LinkedList &ds, string sbd, string name)
     node *p = ds.search(sbd, name);
     string New;
     int d;
+    string c;
     Date date;
-    cout << "~ EDIT INFORMATION ~" << endl;
     int luachon;
     do
     {
-        cout << "1.Chỉnh sửa tên. " << endl;
-        cout << "2.Chỉnh sửa ngày/tháng/năm sinh. " << endl;
-        cout << "3.Chỉnh sửa địa chỉ. " << endl;
-        cout << "4.Chỉnh sửa số cccd. " << endl;
-        cout << "5.Chỉnh sửa giới tính. " << endl;
-        cout << "6.Chỉnh sửa điểm toán, lý, hóa. " << endl;
-        cout << "Nhập lựa chọn: ";
-        cin >> luachon;
+        system("cls");
+            cout << "\n\n\t CÁC THÔNG TIN CẦN SỬA\n\n\t+";
+            for (int i = 1; i <= 30; ++i)
+                cout << "-";
+            cout << "+" << endl;
+            cout << "\t|   1. Tên                     |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   2. Ngày/tháng/năm sinh     |\n ";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   3. Địa chỉ                 |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   4. CCCD                    |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   5. Giới tính               |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   6. Điểm                    |\n";
+            cout << "\t+";
+            for (int i = 1; i <= 30; ++i)
+                cout << "-";
+            cout << "+" << endl;
+            cout << "\nMời nhập lựa chọn :";
+            cin >> luachon;    
         while (luachon < 0 || luachon > 6)
         {
             fflush(stdin);
@@ -625,7 +650,9 @@ void editinfor(LinkedList &ds, string sbd, string name)
             }
             break;
         }
-    } while (luachon != false);
+        cout << "bạn có muốn tìm kiếm thông tin tiếp hay không?(y/n)";
+            cin >> c;
+    } while (c == "y" || c == "Y");
 }
 
 int main()
@@ -662,7 +689,7 @@ int main()
         for (int i = 1; i <= 50; ++i)
             cout << "-";
         cout << "+" << endl;
-        cout << "\nMời nhập lựa chọn :";
+        cout << "\nMời nhập lựa chọn : ";
         cin >> option;
 
         while (option < 0 || option > 6)
@@ -679,46 +706,56 @@ int main()
         {
             ts.input();
             danhsach.insert(ts);
+            cout << "Đã thêm thành công\n";
             system("pause");
             break;
         }
         case 2:
         {
-            cout << "nhap thong tin ban muon xoa" << endl;
+            for (int i = 0; i < 50; i++)
+                cout << "-";
+            cout << endl;
+            cout << "Bạn muốn xóa thông tin của ai:" << endl;
             fflush(stdin);
-            cout << "ten: ";
+            cout << "Tên: ";
             getline(cin, name);
             cout << "sbd: ";
             getline(cin, sbd);
             if (danhsach.Delete(sbd, name) == true)
-                cout << "da xoa thanh cong\n";
+                cout << "Đã xóa thành công\n";
             else
-                cout << "xoa khong thanh cong" << endl;
+                cout << "Không tìm thấy thông tin cần xóa" << endl;
             system("pause");
             break;
         }
         case 3:
         {
-            cout << "nhap thong tin ban muon sua" << endl;
+            for (int i = 0; i < 50; i++)
+                cout << "-";
+            cout << endl;
+            cout << "Bạn muốn sửa thông tin của ai:" << endl;
             fflush(stdin);
-            cout << "ten: ";
+            cout << "Tên: ";
             getline(cin, name);
             cout << "sbd: ";
             getline(cin, sbd);
             editinfor(danhsach, sbd, name);
-            cout << "hãy xuất thông tin để kiểm tra\n";
+            cout << "Đã cập nhật thông tin\n";
             system("pause");
             break;
         }
         case 4:
         {
-            cout << "Thông tin : " << endl;
+            // cout << "Thông tin : " << endl;
             danhsach.xuat();
             system("pause");
             break;
         }
         case 5:
         {
+            for (int i = 0; i < 50; i++)
+                cout << "-";
+            cout << endl;
             cout << "Bạn muốn tìm kiếm thông qua thông tin gì?" << endl;
             danhsach.searchinf();
             system("pause");
@@ -726,15 +763,18 @@ int main()
         }
         case 6:
         {
+            for (int i = 0; i < 50; i++)
+                cout << "-";
+            cout << endl;
             node *temp;
             fflush(stdin);
-            cout << "nhap sbd: ";
+            cout << "Nhập sbd: ";
             getline(cin, sbd);
-            cout << "nhap ten: ";
+            cout << "Nhập tên: ";
             getline(cin, name);
             temp = danhsach.search(sbd, name);
             if (temp == NULL)
-                cout << "khong tim thay thong tin\n";
+                cout << "Không tìm thấy thông tin\n";
             else
                 ts.display();
             system("pause");
