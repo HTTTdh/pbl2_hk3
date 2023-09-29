@@ -1,13 +1,28 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <iomanip>
 using namespace std;
 
-struct Date
+class Date
 {
+public:
     int day, month, year;
+    int sizedate()
+    {
+        int m = 6;
+        if (day < 10)
+            m++;
+        else
+            m += 2;
+        if (month < 10)
+            m++;
+        else
+            m = m + 2;
+        return m;
+    }
 };
 
 class Person
@@ -33,7 +48,6 @@ public:
     void setgt(int gt);
     int getgt();
     void nhapthongtin();
-    void hienthi();
 };
 
 Person::Person()
@@ -119,14 +133,6 @@ void Person::nhapthongtin()
     cout << "nhap gioi tinh (0: Nam, 1: Nu): ";
     cin >> gt;
 }
-void Person::hienthi()
-{
-    cout << "\ntÃªn: " << name << endl;
-    cout << "cccd: " << cccd << endl;
-    cout << "ngÃ y sinh: " << date.day << "/" << date.month << "/" << date.year << endl;
-    cout << "Ä‘á»‹a chá»‰: " << address << endl;
-    cout << "giá»›i tÃ­nh: " << gt << endl;
-}
 
 class ThiSinh : public Person
 {
@@ -134,7 +140,6 @@ private:
     double to;
     string sbd;
     double li, ho;
-
 public:
     ThiSinh();
     ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, double to, double li, double ho);
@@ -222,11 +227,20 @@ void ThiSinh::input()
 
 void ThiSinh::display()
 {
-    hienthi();
-    cout << "so bao danh: " << sbd << endl;
-    cout << "diem toan: " << to << endl;
-    cout << "diem ly: " << li << endl;
-    cout << "diem hoa: " << ho << endl;
+    cout << "|";
+    for (int i = 0; i < 153; i++)
+        cout << "-";
+    cout << "|" << endl;
+    cout << "|" << getname() << setw(34 - getname().length()) << "|";
+    cout << getcccd() << setw(20 - getcccd().length()) << "|";
+    cout << setw(4) << getgt() << setw(4) << "|";
+    cout << getdate().day << "/" << getdate().month << "/" << getdate().year << setw(19 - getdate().sizedate()) << "|";
+    cout << getaddress() << setw(20 - getaddress().length()) << "|";
+    cout << getsbd() << setw(16 - getsbd().length()) << "|";
+    cout << setw(7) << getto() << setw(3) << "|";
+    cout << setw(5) << getli() << setw(3) << "|";
+    cout << setw(6) << gethoa() << setw(3) << "|";
+    cout << setw(5) << to + li + ho << setw(5) << "|" << endl;
 }
 
 class node
@@ -302,17 +316,35 @@ public:
     void xuat()
     {
         node *temp = head;
+        cout << "+";
+        for (int i = 0; i < 153; i++)
+            cout << "-";
+        cout << "+" << endl;
+        cout << "|" << setw(15) << "Tên" << setw(20) << "|";
+        cout << setw(10) << "CCCD" << setw(10) << "|";
+        cout << setw(5) << "GT" << setw(3) << "|";
+        cout << setw(15) << "Ngày Sinh" << setw(5) << "|";
+        cout << setw(17) << "Địa Chỉ" << setw(8) << "|";
+        cout << setw(8) << "SBD" << setw(8) << "|";
+        cout << setw(8) << "Toán" << setw(3) << "|";
+        cout << setw(6) << "Lý" << setw(3) << "|";
+        cout << setw(7) << "Hóa" << setw(3) << "|";
+        cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
         while (temp != NULL)
         {
             temp->data.display();
             temp = temp->next;
         }
+        cout << "|";
+        for (int i = 0; i < 153; i++)
+            cout << "-";
+        cout << "|" << endl;
     }
     bool testempty()
     {
         if (head == NULL)
         {
-            cout << "Danh sÃ¡ch rá»—ng.";
+            cout << "Danh sách rỗng.";
             return true;
         }
         else
@@ -322,57 +354,157 @@ public:
     }
     void searchinf()
     {
+        string c;
         int lc;
         do
         {
-        system("cls");
-        cout << "\n\n\t CÃC THÃ”NG TIN\n\n\t+";
-        for (int i = 1; i <= 30; ++i)
-            cout << "-";
+            system("cls");
+            cout << "\n\n\t CÁC THÔNG TIN\n\n\t+";
+            for (int i = 1; i <= 30; ++i)
+                cout << "-";
             cout << "+" << endl;
-        cout << "\t|   1. TÃªn              |\n" ;
-        cout << "\t|" << setw(30) << "|" << endl;
-        cout << "\t|   2. Äá»‹a chá»‰          |\n ";
-        cout << "\t|" << setw(30) << "|" << endl;
-        cout << "\t|   3. CCCD             |\n" ;
-        cout << "\t|" << setw(30) << "|" << endl;
-        cout << "\t|   4. SBD              |\n" ;
-        cout << "\t|" << setw(30) << "|" << endl;
-        cout << "\t|   5. NÄƒm sinh         |\n" ;
-        cout << "\t|" << setw(30) << "|" << endl;
-        cout << "\t|   6. Giá»›i tÃ­nh        |\n" ;
-        cout << "\t+";
-        for (int i = 1; i <= 30; ++i)
-            cout << "-";
+            cout << "\t|   1. Tên                     |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   2. Địa chỉ                 |\n ";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   3. CCCD                    |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   4. SBD                     |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   5. Năm sinh                |\n";
+            cout << "\t|" << setw(31) << "|" << endl;
+            cout << "\t|   6. Giới tính               |\n";
+            cout << "\t+";
+            for (int i = 1; i <= 30; ++i)
+                cout << "-";
             cout << "+" << endl;
-        cout << "\nMá»i nháº­p lá»±a chá»n :";
-        cin >> lc;
-
-        while (lc < 0 || lc > 6)
-        {
-            fflush(stdin);
-            cout << "Lá»±a chá»n cá»§a báº¡n lÃ  khÃ´ng há»£p lá»‡!!! \n HÃ£y nháº­p láº¡i: ";
+            cout << "\nMời nhập lựa chọn :";
             cin >> lc;
-        }
-        switch (lc)
-        {
-        case 1:
-           { 
-            fflush(stdin);
-            string name;
-            node *p = head;
-            cout << "nháº­p tÃªn báº¡n muá»‘n hiá»ƒn thá»‹: ";
-            getline(cin, name);
-            while (p->data.getname().find(name) > p->data.getname().length())
+
+            while (lc < 0 || lc > 6)
             {
-                p->data.display();
-                p=p->next;
+                fflush(stdin);
+                cout << "Lựa chọn của bạn là không hợp lệ!!! \n Hãy nhập lại: ";
+                cin >> lc;
             }
-            system("pause");
-            break;
+            switch (lc)
+            {
+            case 1:
+            {
+                fflush(stdin);
+                string name;
+                node *p = head;
+                cout << "nhập tên bạn muốn hiển thị: ";
+                getline(cin, name);
+                while (p != nullptr)
+                {
+                    if (p->data.getname().find(name) != string::npos)
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
             }
-        }
-        }while (lc!=false);
+            case 2:
+            {
+                fflush(stdin);
+                string address;
+                node *p = head;
+                cout << "nhập địa chỉ bạn muốn hiển thị: ";
+                getline(cin, address);
+                while (p != nullptr)
+                {
+                    if (p->data.getaddress().find(address) != string::npos)
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
+            }
+            case 3:
+            {
+                fflush(stdin);
+                string cccd;
+                node *p = head;
+                cout << "nhập những số trong cccd bạn muốn hiển thị: ";
+                getline(cin, cccd);
+                while (p != nullptr)
+                {
+                    if (p->data.getcccd().find(cccd) != string::npos)
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
+            }
+            case 4:
+            {
+                fflush(stdin);
+                string sbd;
+                node *p = head;
+                cout << "nhập những số có trong số báo danh mà bạn muốn hiển thị: ";
+                getline(cin, sbd);
+                while (p != nullptr)
+                {
+                    if (p->data.getsbd().find(sbd) != string::npos)
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
+            }
+            case 5:
+            {
+                fflush(stdin);
+                int ns;
+                node *p = head;
+                cout << "nhập năm sinh bạn muốn hiển thị: ";
+                cin >> ns;
+                while (p != nullptr)
+                {
+                    if (p->data.getdate().year == ns)
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
+            }
+            case 6:
+            {
+                cin.ignore();
+                string gt;
+                node *p = head;
+                cout << "Bạn muốn hiển thị giới tính nào (nam/nữ): ";
+                getline(cin, gt);
+                for (int i = 0; i < gt.length(); i++)
+                {
+                    gt[i] = tolower(gt[i]);
+                }
+                while (p != nullptr)
+                {
+                    if ((gt == "nam" && p->data.getgt() == 0) || (gt == "nữ" && p->data.getgt() == 1))
+                    {
+                        p->data.display();
+                    }
+                    p = p->next;
+                }
+                system("pause");
+                break;
+            }
+            }
+            cout << "bạn có muốn tìm kiếm thông tin tiếp hay không?(y/n)";
+            cin >> c;
+        } while (c == "y" || c == "Y");
     }
 };
 
@@ -386,18 +518,18 @@ void editinfor(LinkedList &ds, string sbd, string name)
     int luachon;
     do
     {
-        cout << "1.Chá»‰nh sá»­a tÃªn. " << endl;
-        cout << "2.Chá»‰nh sá»­a ngÃ y/thÃ¡ng/nÄƒm sinh. " << endl;
-        cout << "3.Chá»‰nh sá»­a Ä‘á»‹a chá»‰. " << endl;
-        cout << "4.Chá»‰nh sá»­a sá»‘ cccd. " << endl;
-        cout << "5.Chá»‰nh sá»­a giá»›i tÃ­nh. " << endl;
-        cout << "6.Chá»‰nh sá»­a Ä‘iá»ƒm toÃ¡n, lÃ½, hÃ³a. " << endl;
-        cout << "Nháº­p lá»±a chá»n: ";
+        cout << "1.Chỉnh sửa tên. " << endl;
+        cout << "2.Chỉnh sửa ngày/tháng/năm sinh. " << endl;
+        cout << "3.Chỉnh sửa địa chỉ. " << endl;
+        cout << "4.Chỉnh sửa số cccd. " << endl;
+        cout << "5.Chỉnh sửa giới tính. " << endl;
+        cout << "6.Chỉnh sửa điểm toán, lý, hóa. " << endl;
+        cout << "Nhập lựa chọn: ";
         cin >> luachon;
         while (luachon < 0 || luachon > 6)
         {
             fflush(stdin);
-            cout << "Lá»±a chá»n cá»§a báº¡n lÃ  khÃ´ng há»£p lá»‡!!! \n HÃ£y nháº­p láº¡i: ";
+            cout << "Lựa chọn của bạn là không hợp lệ!!! \n Hãy nhập lại: ";
             cin >> luachon;
         }
         switch (luachon)
@@ -405,11 +537,11 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 1:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
-                cout << "Nháº­p láº¡i tÃªn: ";
+                cout << "Nhập lại tên: ";
                 cin.ignore();
                 getline(cin, New);
                 p->data.setname(New);
@@ -418,16 +550,16 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 2:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
-                cout << "Nháº­p láº¡i ngÃ y/thÃ¡ng/nÄƒm sinh: " << endl;
-                cout << "Nháº­p ngÃ y: ";
+                cout << "Nhập lại ngày/tháng/năm sinh: " << endl;
+                cout << "Nhập ngày: ";
                 cin >> date.day;
-                cout << "Nháº­p thÃ¡ng: ";
+                cout << "Nhập tháng: ";
                 cin >> date.month;
-                cout << "Nháº­p nÄƒm: ";
+                cout << "Nhập năm: ";
                 cin >> date.year;
                 p->data.setdate(date);
             }
@@ -435,12 +567,12 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 3:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
                 string newAddress;
-                cout << "Nháº­p Ä‘á»‹a chá»‰ má»›i: ";
+                cout << "Nhập địa chỉ mới: ";
                 cin.ignore();
                 getline(cin, newAddress);
                 p->data.setaddress(newAddress);
@@ -449,12 +581,12 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 4:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
                 string newCCCD;
-                cout << "Nháº­p sá»‘ CCCD má»›i: ";
+                cout << "Nhập số CCCD mới: ";
                 cin.ignore();
                 getline(cin, newCCCD);
                 p->data.setcccd(newCCCD);
@@ -463,12 +595,12 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 5:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
                 int newgt;
-                cout << "Nháº­p giá»›i tÃ­nh má»›i: (0: Nam, 1: Ná»¯) ";
+                cout << "Nhập giới tính mới: (0: Nam, 1: Nữ) ";
                 cin >> newgt;
                 p->data.setgt(newgt);
             }
@@ -476,16 +608,16 @@ void editinfor(LinkedList &ds, string sbd, string name)
         case 6:
             if (ds.testempty())
             {
-                cout << "ChÆ°a cÃ³ danh sÃ¡ch thÃ­ sinh dá»± thi." << endl;
+                cout << "Chưa có danh sách thí sinh dự thi." << endl;
             }
             else
             {
                 double newMath, newPhysics, newChemistry;
-                cout << "Nháº­p Ä‘iá»ƒm toÃ¡n má»›i: ";
+                cout << "Nhập điểm toán mới: ";
                 cin >> newMath;
-                cout << "Nháº­p Ä‘iá»ƒm lÃ½ má»›i: ";
+                cout << "Nhập điểm lý mới: ";
                 cin >> newPhysics;
-                cout << "Nháº­p Ä‘iá»ƒm hÃ³a má»›i: ";
+                cout << "Nhập điểm hóa mới: ";
                 cin >> newChemistry;
                 p->data.setto(newMath);
                 p->data.setli(newPhysics);
@@ -506,37 +638,37 @@ int main()
     do
     {
         system("cls");
-        cout << "\t~- QUáº¢N LÃ ÄIá»‚M THI Cá»¦A CÃC THÃ SINH VÃ€O Má»˜T TRÆ¯á»œNG Äáº I Há»ŒC -~" << endl;
+        cout << "\t~- QUẢN LÝ ĐIỂM THI CỦA CÁC THÍ SINH VÀO MỘT TRƯỜNG ĐẠI HỌC -~" << endl;
         for (int i = 1; i <= 100; ++i)
             cout << "-";
-        cout << "\n\n\t\t DANH SÃCH CÃC THAO TÃC\n\n\t+";
+        cout << "\n\n\t\t DANH SÁCH CÁC THAO TÁC\n\n\t+";
         for (int i = 1; i <= 50; ++i)
             cout << "-";
-            cout << "+" << endl;
-        cout << "\t|   0. ThoÃ¡t.                                      |\n" ;
+        cout << "+" << endl;
+        cout << "\t|   0. Thoát.                                      |\n";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   1. ThÃªm 1 thÃ­ sinh vÃ o danh sÃ¡ch.              |\n" ;
+        cout << "\t|   1. Thêm 1 thí sinh vào danh sách.              |\n";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   2. XoÃ¡ 1 thÃ­ sinh khá»i danh sÃ¡ch.              |\n ";
+        cout << "\t|   2. Xoá 1 thí sinh khỏi danh sách.              |\n ";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   3. Sá»­a thÃ´ng tin 1 thÃ­ sinh.                   |\n" ;
+        cout << "\t|   3. Sửa thông tin 1 thí sinh.                   |\n";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   4. Xuáº¥t thÃ´ng tin cá»§a má»™t thÃ­ sinh.            |\n" ;
+        cout << "\t|   4. Xuất thông tin của một thí sinh.            |\n";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   5. TÃ¬m kiáº¿m cÃ¡c thÃ´ng tin liÃªn quan.           |\n" ;
+        cout << "\t|   5. Tìm kiếm các thông tin liên quan.           |\n";
         cout << "\t|" << setw(51) << "|" << endl;
-        cout << "\t|   6. TÃ¬m kiáº¿m thÃ´ng tin cá»§a má»™t thÃ­ sinh.        |\n" ;
+        cout << "\t|   6. Tìm kiếm thông tin của một thí sinh.        |\n";
         cout << "\t+";
         for (int i = 1; i <= 50; ++i)
             cout << "-";
-            cout << "+" << endl;
-        cout << "\nMá»i nháº­p lá»±a chá»n :";
+        cout << "+" << endl;
+        cout << "\nMời nhập lựa chọn :";
         cin >> option;
 
         while (option < 0 || option > 6)
         {
             fflush(stdin);
-            cout << "Lá»±a chá»n cá»§a báº¡n lÃ  khÃ´ng há»£p lá»‡!!! \n HÃ£y nháº­p láº¡i: ";
+            cout << "Lựa chọn của bạn là không hợp lệ!!! \n Hãy nhập lại: ";
             cin >> option;
         }
         switch (option)
@@ -574,20 +706,20 @@ int main()
             cout << "sbd: ";
             getline(cin, sbd);
             editinfor(danhsach, sbd, name);
-            cout << "hÃ£y xuáº¥t thÃ´ng tin Ä‘á»ƒ kiá»ƒm tra\n";
+            cout << "hãy xuất thông tin để kiểm tra\n";
             system("pause");
             break;
         }
         case 4:
         {
-            cout << "ThÃ´ng tin : " << endl;
+            cout << "Thông tin : " << endl;
             danhsach.xuat();
             system("pause");
             break;
         }
         case 5:
         {
-            cout << "Báº¡n muá»‘n tÃ¬m kiáº¿m thÃ´ng qua thÃ´ng tin gÃ¬?" << endl;
+            cout << "Bạn muốn tìm kiếm thông qua thông tin gì?" << endl;
             danhsach.searchinf();
             system("pause");
             break;
