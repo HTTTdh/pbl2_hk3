@@ -4,8 +4,13 @@
 #include <vector>
 #include <fstream>
 #include <iomanip>
+#include<stdlib.h>
 using namespace std;
-
+int convert_sex(string s)
+{
+    int sex=std::stoi(s);
+    return sex;
+}
 class Date
 {
 public:
@@ -117,20 +122,20 @@ int Person::getgt()
 void Person::nhapthongtin()
 {
     fflush(stdin);
-    cout << "nhap ho ten: ";
+    cout << "Nhập họ tên: ";
     getline(cin, name);
-    cout << "nhap so cccd: ";
+    cout << "Nhập số cccd: ";
     getline(cin, cccd);
-    cout << "nhap ngay: ";
+    cout << "Nhập ngày sinh: ";
     cin >> date.day;
-    cout << "nhap thang: ";
+    cout << "Nhập tháng sinh: ";
     cin >> date.month;
-    cout << "nhap nam: ";
+    cout << "Nhập năm sinh: ";
     cin >> date.year;
     cin.ignore(1);
-    cout << "nhap dia chi (nhap tinh): ";
+    cout << "Nhập địa chỉ (chỉ nhập tỉnh): ";
     getline(cin, address);
-    cout << "nhap gioi tinh (0: Nam, 1: Nu): ";
+    cout << "Nhập giới tính (0: Nam, 1: Nữ): ";
     cin >> gt;
 }
 class ThiSinh : public Person
@@ -154,7 +159,7 @@ public:
     void input();
     void nhapsbd();
     void display();
-    void docfile(ifstream &);
+    void docfile(string );
 };
 
 ThiSinh::ThiSinh() : Person()
@@ -219,13 +224,13 @@ void ThiSinh::input()
     cout << endl;
     nhapthongtin();
     fflush(stdin);
-    cout << "nhap so bao danh: ";
+    cout << "Nhập số báo danh: ";
     getline(cin, sbd);
-    cout << "nhap diem toan: ";
+    cout << "Nhập điểm toán: ";
     cin >> to;
-    cout << "nhap diem ly: ";
+    cout << "Nhập điểm lý: ";
     cin >> li;
-    cout << "nhap diem hoa: ";
+    cout << "Nhập điểm hóa: ";
     cin >> ho;
     for (int i = 0; i < 50; i++)
         cout << "-";
@@ -268,10 +273,36 @@ void ThiSinh::display()
         cout << "|" << endl;
 }
 
-void ThiSinh::docfile(ifstream &ifs)
+void ThiSinh::docfile(string filePath)
 {
-    // getline(ifs, getname(), ',' );
-}
+        ifstream inputFile(filePath);
+
+        if (inputFile.is_open()) {
+            string line;
+            while (getline(inputFile, line)) {
+                // Tách thông tin từ dòng đọc được
+                size_t pos = line.find(",");
+                getname() = line.substr(0, pos);
+                line.erase(0, pos + 1);
+
+                pos = line.find(",");
+                getcccd() = line.substr(0, pos);
+                line.erase(0, pos + 1);
+
+                pos = line.find(",");
+                getgt() = convert_sex(line.substr(0, pos));
+                line.erase(0, pos + 1);
+
+                getsbd() = line;
+
+                display();
+            }
+
+            inputFile.close();
+        } else {
+            cout << "Khong the mo file." << endl;
+        }
+    }
 class node
 {
 public:
@@ -721,10 +752,12 @@ int main()
             getline(cin, name);
             cout << "sbd: ";
             getline(cin, sbd);
-            if (danhsach.Delete(sbd, name) == true)
+            if (danhsach.search(sbd, name) != NULL)
+           { if (danhsach.Delete(sbd, name) == true)
                 cout << "Đã xóa thành công\n";
             else
-                cout << "Không tìm thấy thông tin cần xóa" << endl;
+                cout << "Không xóa được thông tin này" << endl;}
+                else cout << "Không tìm thấy thông tin cần xóa" << endl;
             system("pause");
             break;
         }
@@ -739,14 +772,15 @@ int main()
             getline(cin, name);
             cout << "sbd: ";
             getline(cin, sbd);
-            editinfor(danhsach, sbd, name);
-            cout << "Đã cập nhật thông tin\n";
+            if (danhsach.search(sbd, name) != NULL)
+           { editinfor(danhsach, sbd, name);
+            cout << "Đã cập nhật thông tin\n";}
+            else cout << "Không tìm thấy thông tin cần sửa" << endl;
             system("pause");
             break;
         }
         case 4:
         {
-            // cout << "Thông tin : " << endl;
             danhsach.xuat();
             system("pause");
             break;
