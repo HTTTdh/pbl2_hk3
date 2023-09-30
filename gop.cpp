@@ -1,16 +1,8 @@
 #include <iostream>
 #include <string>
-#include <cstring>
-#include <vector>
 #include <fstream>
 #include <iomanip>
-#include<stdlib.h>
 using namespace std;
-int convert_sex(string s)
-{
-    int sex=std::stoi(s);
-    return sex;
-}
 class Date
 {
 public:
@@ -32,7 +24,7 @@ public:
 
 class Person
 {
-private:
+protected:
     string cccd;
     string name;
     Date date;
@@ -65,16 +57,7 @@ Person::Person()
     address = "";
     gt = 0;
 }
-Person::Person(string cccd, string name, Date date, string address, int gt)
-{
-    this->cccd = cccd;
-    this->name = name;
-    this->date.day = date.day;
-    this->date.month = date.month;
-    this->date.year = date.year;
-    this->address = address;
-    this->gt = gt;
-}
+Person::Person(string cccd, string name, Date date, string address, int gt) : cccd(cccd), name(name), date(date), address(address), gt(gt){};
 void Person::setcccd(string cccd)
 {
     this->cccd = cccd;
@@ -109,7 +92,6 @@ string Person::getaddress()
 {
     return address;
 }
-
 void Person::setgt(int gt)
 {
     this->gt = gt;
@@ -118,7 +100,6 @@ int Person::getgt()
 {
     return gt;
 }
-
 void Person::nhapthongtin()
 {
     fflush(stdin);
@@ -141,25 +122,25 @@ void Person::nhapthongtin()
 class ThiSinh : public Person
 {
 private:
-    double to;
     string sbd;
-    double li, ho;
+    float to, li, ho;
 
 public:
     ThiSinh();
-    ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, double to, double li, double ho);
+    ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, float to, float li, float ho);
     void setsbd(string sbd);
     string getsbd();
-    void setto(double to);
-    double getto();
-    void setli(double li);
-    double getli();
-    void sethoa(double hoa);
-    double gethoa();
+    void setto(float to);
+    float getto();
+    void setli(float li);
+    float getli();
+    void sethoa(float hoa);
+    float gethoa();
     void input();
     void nhapsbd();
     void display();
-    void docfile(string );
+    void docfile();
+    void ghifile();
 };
 
 ThiSinh::ThiSinh() : Person()
@@ -169,54 +150,39 @@ ThiSinh::ThiSinh() : Person()
     li = 0;
     ho = 0;
 }
-ThiSinh::ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, double to, double li, double ho) : Person(cccd, name, date, address, gt)
-{
-    this->sbd = sbd;
-    this->to = to;
-    this->li = li;
-    this->ho = ho;
-}
-
+ThiSinh::ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, float to, float li, float ho) : Person(cccd, name, date, address, gt), sbd(sbd), to(to), li(li), ho(ho){};
 void ThiSinh::setsbd(string sbd)
 {
     this->sbd = sbd;
 }
-
 string ThiSinh::getsbd()
 {
     return sbd;
 }
-
-void ThiSinh::setto(double to)
+void ThiSinh::setto(float to)
 {
     this->to = to;
 }
-
-double ThiSinh::getto()
+float ThiSinh::getto()
 {
     return to;
 }
-
-void ThiSinh::setli(double li)
+void ThiSinh::setli(float li)
 {
     this->li = li;
 }
-
-double ThiSinh::getli()
+float ThiSinh::getli()
 {
     return li;
 }
-
-void ThiSinh::sethoa(double hoa)
+void ThiSinh::sethoa(float hoa)
 {
     this->ho = hoa;
 }
-
-double ThiSinh::gethoa()
+float ThiSinh::gethoa()
 {
     return ho;
 }
-
 void ThiSinh::input()
 {
     for (int i = 0; i < 50; i++)
@@ -236,23 +202,8 @@ void ThiSinh::input()
         cout << "-";
     cout << endl;
 }
-
 void ThiSinh::display()
 {
-    cout << "+";
-        for (int i = 0; i < 153; i++)
-            cout << "-";
-        cout << "+" << endl;
-        cout << "|" << setw(15) << "Tên" << setw(20) << "|";
-        cout << setw(10) << "CCCD" << setw(10) << "|";
-        cout << setw(5) << "GT" << setw(3) << "|";
-        cout << setw(15) << "Ngày Sinh" << setw(5) << "|";
-        cout << setw(17) << "Địa Chỉ" << setw(8) << "|";
-        cout << setw(8) << "SBD" << setw(8) << "|";
-        cout << setw(8) << "Toán" << setw(3) << "|";
-        cout << setw(6) << "Lý" << setw(3) << "|";
-        cout << setw(7) << "Hóa" << setw(3) << "|";
-        cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
     cout << "|";
     for (int i = 0; i < 153; i++)
         cout << "-";
@@ -267,42 +218,76 @@ void ThiSinh::display()
     cout << setw(5) << getli() << setw(3) << "|";
     cout << setw(6) << gethoa() << setw(3) << "|";
     cout << setw(5) << to + li + ho << setw(5) << "|" << endl;
-     cout << "|";
-        for (int i = 0; i < 153; i++)
-            cout << "-";
-        cout << "|" << endl;
+    cout << "|";
+    for (int i = 0; i < 153; i++)
+        cout << "-";
+    cout << "|" << endl;
 }
-
-void ThiSinh::docfile(string filePath)
+void ThiSinh::docfile()
 {
-        ifstream inputFile(filePath);
+    ifstream inputFile;
+    inputFile.open("dsthisinh.txt", ios::in);
+     if (inputFile.is_open())
+    {
+        string line;
+        while (inputFile.eof() != true)
+        {
+            size_t pos = line.find(",");
+            setname(line.substr(0, pos));
+            line.erase(0, pos + 1);
 
-        if (inputFile.is_open()) {
-            string line;
-            while (getline(inputFile, line)) {
-                // Tách thông tin từ dòng đọc được
-                size_t pos = line.find(",");
-                getname() = line.substr(0, pos);
-                line.erase(0, pos + 1);
+            pos = line.find(",");
+            getcccd() = line.substr(0, pos);
+            line.erase(0, pos + 1);
+            
 
-                pos = line.find(",");
-                getcccd() = line.substr(0, pos);
-                line.erase(0, pos + 1);
+            pos = line.find(",");
+            setgt(stoi(line.substr(0, pos)));
+            line.erase(0, pos + 1);
 
-                pos = line.find(",");
-                getgt() = convert_sex(line.substr(0, pos));
-                line.erase(0, pos + 1);
+            Date d;
+            pos = line.find("/");
+           d.day = ( stoi(line.substr(0, pos)));
+            line.erase(0, pos + 1);
+            pos = line.find("/");
+            d.month = stoi(line.substr(0, pos));
+            line.erase(0, pos + 1);
+            pos = line.find(",");
+            d.year =  stoi(line.substr(0, pos));
+            line.erase(0, pos + 1);
+            setdate(d);
 
-                getsbd() = line;
+            pos = line.find(",");
+            getaddress() = (line.substr(0, pos));
+            line.erase(0, pos + 1);
 
-                display();
-            }
+            pos = line.find(",");
+            getsbd() = (line.substr(0, pos));
+            line.erase(0, pos + 1);
 
-            inputFile.close();
-        } else {
-            cout << "Khong the mo file." << endl;
+            pos = line.find(",");
+            setto (stof(line.substr(0, pos)));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            setli (stof(line.substr(0, pos)));
+            line.erase(0, pos + 1);
+
+            sethoa(stof(line));
+
+            display();
         }
+
+        inputFile.close();
     }
+     else 
+
+        cout << "Khong the mo file." << endl;
+}
+void ThiSinh::ghifile()
+{
+    
+}
 class node
 {
 public:
@@ -315,7 +300,6 @@ public:
         next = NULL;
     }
 };
-
 class LinkedList
 {
 private:
@@ -372,10 +356,24 @@ public:
         else
             return false;
     }
-
     void xuat()
     {
         node *temp = head;
+        
+    cout << "+";
+    for (int i = 0; i < 153; i++)
+        cout << "-";
+    cout << "+" << endl;
+    cout << "|" << setw(15) << "Tên" << setw(20) << "|";
+    cout << setw(10) << "CCCD" << setw(10) << "|";
+    cout << setw(5) << "GT" << setw(3) << "|";
+    cout << setw(15) << "Ngày Sinh" << setw(5) << "|";
+    cout << setw(17) << "Địa Chỉ" << setw(8) << "|";
+    cout << setw(8) << "SBD" << setw(8) << "|";
+    cout << setw(8) << "Toán" << setw(3) << "|";
+    cout << setw(6) << "Lý" << setw(3) << "|";
+    cout << setw(7) << "Hóa" << setw(3) << "|";
+    cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
         while (temp != NULL)
         {
             temp->data.display();
@@ -401,7 +399,7 @@ public:
         do
         {
             system("cls");
-            cout << "\n\n\t CÁC THÔNG TIN\n\n\t+";
+            cout << "\n\n\t CÁC THÔNG TIN CẦN TÌM\n\n\t+";
             for (int i = 1; i <= 30; ++i)
                 cout << "-";
             cout << "+" << endl;
@@ -422,7 +420,6 @@ public:
             cout << "+" << endl;
             cout << "\nMời nhập lựa chọn :";
             cin >> lc;
-
             while (lc < 0 || lc > 6)
             {
                 fflush(stdin);
@@ -544,7 +541,7 @@ public:
                 break;
             }
             }
-            cout << "bạn có muốn tìm kiếm thông tin tiếp hay không?(y/n)";
+            cout << "bạn có muốn tìm kiếm thông tin tiếp hay không? (y/n) ";
             cin >> c;
         } while (c == "y" || c == "Y");
     }
@@ -561,27 +558,27 @@ void editinfor(LinkedList &ds, string sbd, string name)
     do
     {
         system("cls");
-            cout << "\n\n\t CÁC THÔNG TIN CẦN SỬA\n\n\t+";
-            for (int i = 1; i <= 30; ++i)
-                cout << "-";
-            cout << "+" << endl;
-            cout << "\t|   1. Tên                     |\n";
-            cout << "\t|" << setw(31) << "|" << endl;
-            cout << "\t|   2. Ngày/tháng/năm sinh     |\n ";
-            cout << "\t|" << setw(31) << "|" << endl;
-            cout << "\t|   3. Địa chỉ                 |\n";
-            cout << "\t|" << setw(31) << "|" << endl;
-            cout << "\t|   4. CCCD                    |\n";
-            cout << "\t|" << setw(31) << "|" << endl;
-            cout << "\t|   5. Giới tính               |\n";
-            cout << "\t|" << setw(31) << "|" << endl;
-            cout << "\t|   6. Điểm                    |\n";
-            cout << "\t+";
-            for (int i = 1; i <= 30; ++i)
-                cout << "-";
-            cout << "+" << endl;
-            cout << "\nMời nhập lựa chọn :";
-            cin >> luachon;    
+        cout << "\n\n\t CÁC THÔNG TIN CẦN SỬA\n\n\t+";
+        for (int i = 1; i <= 30; ++i)
+            cout << "-";
+        cout << "+" << endl;
+        cout << "\t|   1. Tên                     |\n";
+        cout << "\t|" << setw(31) << "|" << endl;
+        cout << "\t|   2. Ngày/tháng/năm sinh     |\n ";
+        cout << "\t|" << setw(31) << "|" << endl;
+        cout << "\t|   3. Địa chỉ                 |\n";
+        cout << "\t|" << setw(31) << "|" << endl;
+        cout << "\t|   4. CCCD                    |\n";
+        cout << "\t|" << setw(31) << "|" << endl;
+        cout << "\t|   5. Giới tính               |\n";
+        cout << "\t|" << setw(31) << "|" << endl;
+        cout << "\t|   6. Điểm                    |\n";
+        cout << "\t+";
+        for (int i = 1; i <= 30; ++i)
+            cout << "-";
+        cout << "+" << endl;
+        cout << "\nMời nhập lựa chọn :";
+        cin >> luachon;
         while (luachon < 0 || luachon > 6)
         {
             fflush(stdin);
@@ -668,7 +665,7 @@ void editinfor(LinkedList &ds, string sbd, string name)
             }
             else
             {
-                double newMath, newPhysics, newChemistry;
+                float newMath, newPhysics, newChemistry;
                 cout << "Nhập điểm toán mới: ";
                 cin >> newMath;
                 cout << "Nhập điểm lý mới: ";
@@ -682,7 +679,7 @@ void editinfor(LinkedList &ds, string sbd, string name)
             break;
         }
         cout << "bạn có muốn tìm kiếm thông tin tiếp hay không?(y/n)";
-            cin >> c;
+        cin >> c;
     } while (c == "y" || c == "Y");
 }
 
@@ -753,11 +750,14 @@ int main()
             cout << "sbd: ";
             getline(cin, sbd);
             if (danhsach.search(sbd, name) != NULL)
-           { if (danhsach.Delete(sbd, name) == true)
-                cout << "Đã xóa thành công\n";
+            {
+                if (danhsach.Delete(sbd, name) == true)
+                    cout << "Đã xóa thành công\n";
+                else
+                    cout << "Không xóa được thông tin này" << endl;
+            }
             else
-                cout << "Không xóa được thông tin này" << endl;}
-                else cout << "Không tìm thấy thông tin cần xóa" << endl;
+                cout << "Không tìm thấy thông tin cần xóa" << endl;
             system("pause");
             break;
         }
@@ -773,9 +773,12 @@ int main()
             cout << "sbd: ";
             getline(cin, sbd);
             if (danhsach.search(sbd, name) != NULL)
-           { editinfor(danhsach, sbd, name);
-            cout << "Đã cập nhật thông tin\n";}
-            else cout << "Không tìm thấy thông tin cần sửa" << endl;
+            {
+                editinfor(danhsach, sbd, name);
+                cout << "Đã cập nhật thông tin\n";
+            }
+            else
+                cout << "Không tìm thấy thông tin cần sửa" << endl;
             system("pause");
             break;
         }
