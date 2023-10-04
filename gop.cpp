@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <stdexcept> 
 using namespace std;
 class Date
 {
@@ -139,8 +140,6 @@ public:
     void input();
     void nhapsbd();
     void display();
-    void docfile();
-    void ghifile();
 };
 
 ThiSinh::ThiSinh() : Person()
@@ -218,75 +217,6 @@ void ThiSinh::display()
     cout << setw(5) << getli() << setw(3) << "|";
     cout << setw(6) << gethoa() << setw(3) << "|";
     cout << setw(5) << to + li + ho << setw(5) << "|" << endl;
-    cout << "|";
-    for (int i = 0; i < 153; i++)
-        cout << "-";
-    cout << "|" << endl;
-}
-void ThiSinh::docfile()
-{
-    ifstream inputFile;
-    inputFile.open("dsthisinh.txt", ios::in);
-     if (inputFile.is_open())
-    {
-        string line;
-        while (inputFile.eof() != true)
-        {
-            size_t pos = line.find(",");
-            setname(line.substr(0, pos));
-            line.erase(0, pos + 1);
-
-            pos = line.find(",");
-            getcccd() = line.substr(0, pos);
-            line.erase(0, pos + 1);
-            
-
-            pos = line.find(",");
-            setgt(stoi(line.substr(0, pos)));
-            line.erase(0, pos + 1);
-
-            Date d;
-            pos = line.find("/");
-           d.day = ( stoi(line.substr(0, pos)));
-            line.erase(0, pos + 1);
-            pos = line.find("/");
-            d.month = stoi(line.substr(0, pos));
-            line.erase(0, pos + 1);
-            pos = line.find(",");
-            d.year =  stoi(line.substr(0, pos));
-            line.erase(0, pos + 1);
-            setdate(d);
-
-            pos = line.find(",");
-            getaddress() = (line.substr(0, pos));
-            line.erase(0, pos + 1);
-
-            pos = line.find(",");
-            getsbd() = (line.substr(0, pos));
-            line.erase(0, pos + 1);
-
-            pos = line.find(",");
-            setto (stof(line.substr(0, pos)));
-            line.erase(0, pos + 1);
-
-            pos = line.find(",");
-            setli (stof(line.substr(0, pos)));
-            line.erase(0, pos + 1);
-
-            sethoa(stof(line));
-
-            display();
-        }
-
-        inputFile.close();
-    }
-     else 
-
-        cout << "Khong the mo file." << endl;
-}
-void ThiSinh::ghifile()
-{
-    
 }
 class node
 {
@@ -358,8 +288,6 @@ public:
     }
     void xuat()
     {
-        node *temp = head;
-        
     cout << "+";
     for (int i = 0; i < 153; i++)
         cout << "-";
@@ -374,12 +302,18 @@ public:
     cout << setw(6) << "Lý" << setw(3) << "|";
     cout << setw(7) << "Hóa" << setw(3) << "|";
     cout << setw(9) << "Tổng" << setw(3) << "|" << endl;
+    node *temp = head;
         while (temp != NULL)
         {
             temp->data.display();
             temp = temp->next;
         }
+    cout << "|";
+     for (int i = 0; i < 153; i++)
+        cout << "-";
+    cout << "|" << endl;
     }
+    void docfile();
     bool testempty()
     {
         if (head == NULL)
@@ -546,6 +480,75 @@ public:
         } while (c == "y" || c == "Y");
     }
 };
+void LinkedList::docfile()
+{
+    ThiSinh ts;
+    ifstream inputFile;
+    inputFile.open("dsthisinh.txt", ios::in);
+    if (inputFile.is_open())
+    {
+        string line;
+        size_t pos;
+        while (getline(inputFile, line))
+        {
+            pos = line.find(",");
+            ts.setname(line.substr(0, pos));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            ts.setcccd(line.substr(0, pos));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            try {
+                ts.setgt(stoi(line.substr(0, pos)));
+            }
+            catch (const invalid_argument& e) {
+                cerr << "Lỗi: " << e.what() << " - Giá trị không hợp lệ: " << line.substr(0, pos) << std::endl;
+                // Xử lý lỗi ở đây (ví dụ: gán giá trị mặc định)
+                ts.setgt(0); 
+            }
+            line.erase(0, pos + 1);
+
+            Date d;
+            pos = line.find("/");
+            d.day = stoi(line.substr(0, pos));
+            line.erase(0, pos + 1);
+            pos = line.find("/");
+            d.month = stoi(line.substr(0, pos));
+            line.erase(0, pos + 1);
+            pos = line.find(",");
+            d.year = stoi(line.substr(0, pos));
+            line.erase(0, pos + 1);
+            ts.setdate(d);
+
+            pos = line.find(",");
+            ts.setaddress(line.substr(0, pos));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            ts.setsbd(line.substr(0, pos));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            ts.setto(stof(line.substr(0, pos)));
+            line.erase(0, pos + 1);
+
+            pos = line.find(",");
+            ts.setli(stof(line.substr(0, pos)));
+            line.erase(0, pos + 1);
+
+            ts.sethoa(stof(line));
+            insert(ts);
+        }
+
+        inputFile.close();
+    }
+    else {
+        cout << "Không thể mở file." << endl;
+    }
+}
+
 
 void editinfor(LinkedList &ds, string sbd, string name)
 {
@@ -690,6 +693,7 @@ int main()
     string sbd;
     string name;
     int option;
+    danhsach.docfile();
     do
     {
         system("cls");
