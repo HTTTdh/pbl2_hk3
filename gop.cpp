@@ -314,6 +314,7 @@ public:
     cout << "|" << endl;
     }
     void docfile();
+    void ghifile();
     bool testempty()
     {
         if (head == NULL)
@@ -548,6 +549,27 @@ void LinkedList::docfile()
         cout << "Không thể mở file." << endl;
     }
 }
+void LinkedList::ghifile(){
+    ofstream outputFile;
+    outputFile.open("dsthisinh.txt", ios::out);
+    if (outputFile.is_open())
+    {
+        node* current = head; 
+        while (current != NULL)
+        {
+            outputFile << current->data.getname() << "," << current->data.getcccd() << "," << current->data.getgt() << ","
+                       << current->data.getdate().day << "/" << current->data.getdate().month << "/" << current->data.getdate().year
+                       << "," << current->data.getaddress() << "," << current->data.getsbd() << "," << current->data.getto()
+                       << "," << current->data.getli() << "," << current->data.gethoa() << endl;
+            
+            current = current->next; 
+        }
+        outputFile.close();
+    }
+    else {
+        cout << "Không thể mở file." << endl;
+    }
+}
 
 
 void editinfor(LinkedList &ds, string sbd, string name)
@@ -738,6 +760,7 @@ int main()
         {
             ts.input();
             danhsach.insert(ts);
+            danhsach.ghifile();
             cout << "Đã thêm thành công\n";
             system("pause");
             break;
