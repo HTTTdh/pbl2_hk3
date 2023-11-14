@@ -3,53 +3,76 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 #include "person.h"
+#include "mylib.h"
 using namespace std;
 class ThiSinh : public Person
 {
-private:
     string sbd;
     float to, li, ho;
+    float van, anh, sinh;
     float sum;
-    int spt;
-    string *nv;
-
 public:
+    vector<string> wishes;
     ThiSinh();
-    ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, float to, float li, float ho, int spt, string *nv);
+    ThiSinh(string cccd, string name, Date date, string address, string gt, string sbd, float to, float li, float ho, float van, float anh, float sinh, vector<std::string> w);
     void setsbd(string sbd);
     string getsbd();
     void setto(float to);
     float getto();
     void setli(float li);
     float getli();
-    void sethoa(float hoa);
-    float gethoa();
+    void setho(float ho);
+    float getho();
+    void setvan(float van);
+    float getvan();
+    void setanh(float anh);
+    float getanh();
+    void setsinh(float sinh);
+    float getsinh();
+    float getsuma1();
+    float getsuma();
     float getsum();
-    void setspt(int spt);
-    int getspt();
-    void setnv(string nv, int i);
-    string getnv(int i);
     void input();
     void display();
+    void display1();
+    ~ThiSinh()
+    {
+    }
 };
-
-ThiSinh::ThiSinh() : Person()
+void ThiSinh::setvan(float van)
 {
-    to = 0;
-    sbd = "";
-    li = 0;
-    ho = 0;
-    spt = 0;
-    this->nv = NULL;
+    this->van = van;
 }
-ThiSinh::ThiSinh(string cccd, string name, Date date, string address, int gt, string sbd, float to, float li, float ho, int spt, string *nv)
-    : Person(cccd, name, date, address, gt), sbd(sbd), to(to), li(li), ho(ho), spt(spt)
+float ThiSinh::getvan()
 {
-    nv = new string[spt];
-    for (int i = 0; i < spt; i++)
-        this->nv[i] = nv[i];
-};
+    return van;
+}
+void ThiSinh::setanh(float anh)
+{
+    this->anh = anh;
+}
+float ThiSinh::getanh()
+{
+    return anh;
+}
+void ThiSinh::setsinh(float sinh)
+{
+    this->sinh = sinh;
+}
+float ThiSinh::getsinh()
+{
+    return sinh;
+}
+float ThiSinh::getsuma1()
+{
+    return to + li + anh;
+}
+float ThiSinh::getsuma()
+{
+    return to + li + ho;
+}
 void ThiSinh::setsbd(string sbd)
 {
     this->sbd = sbd;
@@ -74,77 +97,111 @@ float ThiSinh::getli()
 {
     return li;
 }
-void ThiSinh::sethoa(float hoa)
+void ThiSinh::setho(float ho)
 {
-    this->ho = hoa;
+    this->ho = ho;
 }
-float ThiSinh::gethoa()
+float ThiSinh::getho()
 {
     return ho;
 }
 float ThiSinh::getsum()
 {
-    return to + li + ho;
+    return to + li + ho + van + anh + sinh;
 }
-void ThiSinh::setspt(int spt)
+ThiSinh::ThiSinh() : Person()
 {
-    this->spt = spt;
+    to = 0;
+    sbd = "";
+    li = 0;
+    ho = 0;
 }
-
-int ThiSinh::getspt()
+ThiSinh::ThiSinh(string cccd, string name, Date date, string address, string gt, string sbd, float to, float li, float ho,  float van, float anh, float sinh, vector<std::string> w) :Person(cccd, name, date, address, gt), sbd(sbd), to(to), li(li), ho(ho), van(van), anh(anh), sinh(sinh)
 {
-    return spt;
-}
-
-void ThiSinh::setnv(string nv, int i)
-{
-    this->nv[i] = nv[i];
-}
-string ThiSinh::getnv(int i)
-{
-    return nv[i];
-}
+    wishes = w;
+};
 void ThiSinh::input()
 {
-    for (int i = 0; i < 50; i++)
-        cout << "-";
-    cout << endl;
+    SetColor1(8, 4);
+    gotoXY(30, 1);
+    cout << "DIEN THONG TIN THI SINH";
+    draw(20, 2, 62, 30);
     nhapthongtin();
-    fflush(stdin);
-    cout << "Nhập số báo danh: ";
+    gotoXY(35, 4);
+    cin.ignore(0);
+    gotoXY(36, 11);
     getline(cin, sbd);
-    cout << "Nhập điểm toán: ";
+    gotoXY(34, 12);
     cin >> to;
-    cout << "Nhập điểm lý: ";
+    gotoXY(34, 13);
     cin >> li;
-    cout << "Nhập điểm hóa: ";
+    gotoXY(34, 14);
     cin >> ho;
-    cout << "Nhập số nguyện vọng ";
-    cin >> spt;
-    for (int i = 0; i < spt; i++)
+    gotoXY(34, 15);
+    cin >> van;
+    gotoXY(34, 16);
+    cin >> anh;
+    gotoXY(34,17);
+    cin >> sinh;
+    gotoXY(47, 18);
+    int so_nv;
+    cin >> so_nv;
+    fflush(stdin);
+    for (int i = 0; i < so_nv; i++)
     {
-        cout << "Nhập nguyện vọng thứ " << i + 1 << " ";
-        getline(cin, nv[i]);
+        string nv;
+        gotoXY(22, 19 + i);
+        cin.ignore(0);
+        SetColor1(8, 2);
+        cout << "Nguyen vong thu " << i + 1 << " : ";
+        SetColor1(8, 3);
+        getline(cin, nv);
+        wishes.push_back(nv);
     }
-    cout << endl;
-    for (int i = 0; i < 50; i++)
-        cout << "-";
-    cout << endl;
 }
 void ThiSinh::display()
 {
-    cout << "|";
-    for (int i = 0; i < 153; i++)
-        cout << "-";
     cout << "|" << endl;
     cout << "|" << getname() << setw(34 - getname().length()) << "|";
     cout << getcccd() << setw(20 - getcccd().length()) << "|";
     cout << setw(4) << getgt() << setw(4) << "|";
     cout << getdate().day << "/" << getdate().month << "/" << getdate().year << setw(19 - getdate().sizedate()) << "|";
     cout << getaddress() << setw(20 - getaddress().length()) << "|";
-    cout << getsbd() << setw(16 - getsbd().length()) << "|";
-    cout << setw(7) << getto() << setw(3) << "|";
-    cout << setw(5) << getli() << setw(3) << "|";
-    cout << setw(6) << gethoa() << setw(3) << "|";
-    cout << setw(5) << getsum() << setw(5) << "|" << endl;
+    cout << sbd << setw(16 - sbd.length()) << "|";
+    cout << setw(7) << to << setw(3) << "|";
+    cout << setw(5) << li << setw(3) << "|";
+    cout << setw(6) << ho << setw(3) << "|";
+    cout << setw(6) << van << setw(3) << "|";
+    cout << setw(6) << anh << setw(3) << "|";
+    cout << setw(6) << sinh << setw(3) << "|";
+    cout << setw(5) << to + li + ho + van + anh + sinh << setw(5) << "|";
+}
+void ThiSinh::display1()
+{
+    draw(10, 1, 40, 19);
+    SetColor1(8, 3);
+    gotoXY(12, 4);
+    cout << "Ten: " << getname();
+    gotoXY(12, 5);
+    cout << "CCCD: " << getcccd();
+    gotoXY(12, 6);
+    cout << "Gioi tinh: " << getgt();
+    gotoXY(12, 7);
+    cout << "Nam sinh: " << getdate().day << "/" << getdate().month << "/" << getdate().year;
+    gotoXY(12, 8);
+    cout << "Dia chi: " << getaddress();
+    gotoXY(12, 9);
+    cout << "SBD: " << getsbd();
+    gotoXY(12, 10);
+    cout << "Diem toan: " << getto();
+    gotoXY(12, 11);
+    cout << "Diem li: " << getli();
+    gotoXY(12, 12);
+    cout << "Diem hoa: " << getho();
+    gotoXY(12, 13);
+    cout << "Diem van: " << getvan();
+    gotoXY(12,14);
+    cout << "Diem anh: " << getanh();
+    gotoXY(12, 15);
+    cout << "Diem sinh: " << getsinh();
 }
